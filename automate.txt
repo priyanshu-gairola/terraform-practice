@@ -1,1 +1,0 @@
-This is a file amde using terraform automation 
