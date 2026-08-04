@@ -67,15 +67,15 @@ resource "aws_security_group" "my_security_group" {
 #now we will create ec2 instance and will use the above created resources in it
 
 resource "aws_instance" "my_ec2_instance" {
-  ami           = "ami-0011550b539717e2a"
-  instance_type = "t3.micro"
+  ami           = var.ec2-ami
+  instance_type = var.ec2_instance_type
   key_name      = aws_key_pair.my_key.key_name
   security_groups = [aws_security_group.my_security_group.name]
 
   #storage which we sede at bottom while crrating instance
   
   root_block_device {
-    volume_size = 15
+    volume_size = var.ec2_block_storage
     volume_type = "gp3"
   }
 
