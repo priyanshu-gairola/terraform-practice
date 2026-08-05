@@ -12,6 +12,6 @@ variable "ec2-ami" {
 
 variable "ec2_block_storage" {
   description = "Block storage size for the EC2 instance"
-  default     = 10
+  default     = 15
   type        = number
 }
