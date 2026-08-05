@@ -2,7 +2,7 @@
 
 #key pair 
 
-resource "aws_key_pair" "my_key"{
+resource "aws_key_pair" "my_key" {
   key_name   = "terra-key-ec2"
   public_key = file("terra-key.pub")
 }
@@ -22,7 +22,7 @@ resource "aws_security_group" "my_security_group" {
   description = "Allow SSH and HTTP traffic"
   vpc_id      = aws_default_vpc.default.id
 
-#ingress for incoming traffic
+  #ingress for incoming traffic
 
   ingress {
     from_port   = 22
@@ -32,7 +32,13 @@ resource "aws_security_group" "my_security_group" {
     description = "Allow SSH traffic from anywhere"
   }
 
-  
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+    description = "Allow HTTP traffic from anywhere"
+  }
 
   ingress {
     from_port   = 8000
@@ -61,19 +67,20 @@ resource "aws_security_group" "my_security_group" {
 #now we will create ec2 instance and will use the above created resources in it
 
 resource "aws_instance" "my_ec2_instance" {
-  ami           = var.ec2-ami
-  instance_type = var.ec2_instance_type
-  key_name      = aws_key_pair.my_key.key_name
+  ami             = var.ec2-ami
+  instance_type   = var.ec2_instance_type
+  key_name        = aws_key_pair.my_key.key_name
   security_groups = [aws_security_group.my_security_group.name]
+  user_data        = file("install-nginx.sh")
 
   #storage which we sede at bottom while crrating instance
-  
+
   root_block_device {
     volume_size = var.ec2_block_storage
     volume_type = "gp3"
   }
 
   tags = {
-    Name = "MyEC2Instance using terraform"
+    Name = "MyEC2Instance"
   }
 }
