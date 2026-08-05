@@ -67,8 +67,15 @@ resource "aws_security_group" "my_security_group" {
 #now we will create ec2 instance and will use the above created resources in it
 
 resource "aws_instance" "my_ec2_instance" {
+  # count=2   meta-argument to create multiple instances of same type
+
+  for_each = tomap({
+  tws-instance-micro = "t3.micro"
+  tws-instance-small = "t3.small"
+  })
+
   ami             = var.ec2-ami
-  instance_type   = var.ec2_instance_type
+  instance_type   = each.value
   key_name        = aws_key_pair.my_key.key_name
   security_groups = [aws_security_group.my_security_group.name]
   user_data        = file("install-nginx.sh")
@@ -81,6 +88,6 @@ resource "aws_instance" "my_ec2_instance" {
   }
 
   tags = {
-    Name = "MyEC2Instance"
+    Name = each.key
   }
 }
