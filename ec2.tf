@@ -74,6 +74,8 @@ resource "aws_instance" "my_ec2_instance" {
   tws-instance-small = "t3.small"
   })
 
+  depends_on = [aws_security_group.my_security_group, aws_key_pair.my_key]
+
   ami             = var.ec2-ami
   instance_type   = each.value
   key_name        = aws_key_pair.my_key.key_name
