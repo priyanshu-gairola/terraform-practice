@@ -96,7 +96,7 @@ resource "aws_instance" "my_ec2_instance" {
   #storage which we sede at bottom while crrating instance
 
   root_block_device {
-    volume_size = var.env_name == "prod" ? 15 : var.default_block_storage
+    volume_size = var.env_name == "prod" ? 10 : var.default_block_storage
     volume_type = "gp3"
   }
 
