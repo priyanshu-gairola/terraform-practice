@@ -1,4 +1,10 @@
 
+variable "env_name" {
+  description = "Name of the environment"
+  default     = "prod"
+  type        = string
+}
+
 variable "ec2_instance_type" {
   description = "Type of EC2 instance"
   default     = "t3.micro"
@@ -11,8 +17,11 @@ variable "ec2-ami" {
   type        = string
 }
 
-variable "ec2_block_storage" {
+variable "default_block_storage" {
   description = "Block storage size for the EC2 instance"
-  default     = 15
-  type        = number
+  type = number
+  default = 10
 }
+
+
+

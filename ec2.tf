@@ -74,7 +74,7 @@ resource "aws_instance" "my_ec2_instance" {
   tws-instance-small = "t3.small"
   })
 
-  depends_on = [aws_security_group.my_security_group, aws_key_pair.my_key]
+  depends_on = [aws_key_pair.my_key, aws_default_vpc.default, aws_security_group.my_security_group]
 
   ami             = var.ec2-ami
   instance_type   = each.value
@@ -85,7 +85,7 @@ resource "aws_instance" "my_ec2_instance" {
   #storage which we sede at bottom while crrating instance
 
   root_block_device {
-    volume_size = var.ec2_block_storage
+    volume_size = var.env_name == "prod" ? 20 : var.default_block_storage
     volume_type = "gp3"
   }
 
