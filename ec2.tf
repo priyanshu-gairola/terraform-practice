@@ -7,6 +7,17 @@ resource "aws_key_pair" "my_key" {
   public_key = file("terra-key.pub")
 }
 
+#new key to import from console
+
+resource "aws_key_pair" "imported-key" {
+key_name   = "devops-key"
+    public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDatlOMxiLAjXFjvZK93+a1FGjMSb6ELR/NzgRCvEPOjE5xFSBULLgvlQjiZtapanHs71fPzzl3ix5tX6gqK9ExML6CHBnokX6AbzRKW+2vw5Ar29S2OU8slFt/fnR4fIcpyMpDp0FVligbZS32w0Mb+x4eoV8oY6+aaM6enOyhOuEO7coFb3XyWD53nS/cbAXxHlC8kBEwhpB8qsLVOAi3mR9SpFpC/7DkyeEj5F/5ejzIJbcrhvrVeDSp5zK8MYXE/vd8PxZfq10tQkb+ocqC8Dh5Rec4UAnsnb31YkdrEZBGoI0XhYovoAPgnCNomTyW6Js2ejzrMxF7VdZUfRtR"
+lifecycle {
+    ignore_changes = [public_key]
+    }
+  
+}
+
 #default vpc
 
 resource "aws_default_vpc" "default" {
@@ -85,7 +96,7 @@ resource "aws_instance" "my_ec2_instance" {
   #storage which we sede at bottom while crrating instance
 
   root_block_device {
-    volume_size = var.env_name == "prod" ? 20 : var.default_block_storage
+    volume_size = var.env_name == "prod" ? 15 : var.default_block_storage
     volume_type = "gp3"
   }
 
@@ -93,3 +104,16 @@ resource "aws_instance" "my_ec2_instance" {
     Name = each.key
   }
 }
+
+
+#new instance which i am going to import from console
+
+resource "aws_instance" "imported_instance" {
+
+  ami = "ami-01a00762f46d584a1"
+  instance_type="t3.micro"
+  tags = {
+    Name = "new-instance-import"
+  }
+
+  }
