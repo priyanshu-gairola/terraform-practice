@@ -3,20 +3,11 @@
 #key pair 
 
 resource "aws_key_pair" "my_key" {
-  key_name   = "terra-key-ec2"
+  key_name   = "dev-terra-key-ec2"
   public_key = file("terra-key.pub")
 }
 
-#new key to import from console
 
-resource "aws_key_pair" "imported-key" {
-key_name   = "devops-key"
-    public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDatlOMxiLAjXFjvZK93+a1FGjMSb6ELR/NzgRCvEPOjE5xFSBULLgvlQjiZtapanHs71fPzzl3ix5tX6gqK9ExML6CHBnokX6AbzRKW+2vw5Ar29S2OU8slFt/fnR4fIcpyMpDp0FVligbZS32w0Mb+x4eoV8oY6+aaM6enOyhOuEO7coFb3XyWD53nS/cbAXxHlC8kBEwhpB8qsLVOAi3mR9SpFpC/7DkyeEj5F/5ejzIJbcrhvrVeDSp5zK8MYXE/vd8PxZfq10tQkb+ocqC8Dh5Rec4UAnsnb31YkdrEZBGoI0XhYovoAPgnCNomTyW6Js2ejzrMxF7VdZUfRtR"
-lifecycle {
-    ignore_changes = [public_key]
-    }
-  
-}
 
 #default vpc
 
@@ -29,7 +20,7 @@ resource "aws_default_vpc" "default" {
 #security group 
 
 resource "aws_security_group" "my_security_group" {
-  name        = "automatic-security-group"
+  name        = "dev-automatic-security-group"
   description = "Allow SSH and HTTP traffic"
   vpc_id      = aws_default_vpc.default.id
 
@@ -82,7 +73,6 @@ resource "aws_instance" "my_ec2_instance" {
 
   for_each = tomap({
   tws-instance-micro = "t3.micro"
-  tws-instance-small = "t3.small"
   })
 
   depends_on = [aws_key_pair.my_key, aws_default_vpc.default, aws_security_group.my_security_group]
@@ -105,15 +95,3 @@ resource "aws_instance" "my_ec2_instance" {
   }
 }
 
-
-#new instance which i am going to import from console
-
-resource "aws_instance" "imported_instance" {
-
-  ami = "ami-01a00762f46d584a1"
-  instance_type="t3.micro"
-  tags = {
-    Name = "new-instance-import"
-  }
-
-  }
