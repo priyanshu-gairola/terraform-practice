@@ -24,7 +24,7 @@ resource "aws_default_vpc" "default" {
 #security group 
 
 resource "aws_security_group" "my_security_group" {
-  name        = "dev-automatic-security-group"
+  name        = "${local.name_prefix}automatic-security-group"
   description = "Allow SSH and HTTP traffic"
   vpc_id      = aws_default_vpc.default.id
 
@@ -64,9 +64,9 @@ resource "aws_security_group" "my_security_group" {
     description = "Allow all outbound traffic"
   }
 
-  tags = {
-    Name = "automatic-security-group"
-  }
+  tags = merge(local.common_tags, {
+    Name = "${local.name_prefix}automatic-security-group"
+  })
 }
 
 
@@ -95,7 +95,7 @@ resource "aws_instance" "my_ec2_instance" {
   }
 
   tags = merge(local.common_tags, {
-  Name = "${local.name_prefix}${each.key}"
-})
+    Name = "${local.name_prefix}${each.key}"
+  })
 }
 
