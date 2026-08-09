@@ -94,8 +94,8 @@ resource "aws_instance" "my_ec2_instance" {
     volume_type = "gp3"
   }
 
-  tags = {
-    Name = each.key
-  }
+  tags = merge(local.common_tags, {
+  Name = "${local.name_prefix}${each.key}"
+})
 }
 
