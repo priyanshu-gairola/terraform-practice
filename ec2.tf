@@ -63,10 +63,9 @@ resource "aws_security_group" "my_security_group" {
     cidr_blocks = ["0.0.0.0/0"]
     description = "Allow all outbound traffic"
   }
-
-  tags = {
-    Name = "automatic-security-group"
-  }
+  tags = merge(local.common_tags, {
+    Name = "${local.name_prefix}automatic-security-group"
+  })
 }
 
 
@@ -95,7 +94,7 @@ resource "aws_instance" "my_ec2_instance" {
   }
 
   tags = merge(local.common_tags, {
-  Name = "${local.name_prefix}${each.key}"
-})
+    Name = "${local.name_prefix}${each.key}"
+  })
 }
 
