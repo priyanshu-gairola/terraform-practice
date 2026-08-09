@@ -1,10 +1,14 @@
 #in order to create we need vpc,key pairs , security groups so will be creating those first and remaining after that
 
-#key pair 
+#key pair with environment variables as prefix
 
 resource "aws_key_pair" "my_key" {
-  key_name   = "dev-terra-key-ec2"
+  key_name   = "${local.name_prefix}terra-key-ec2"
   public_key = file("terra-key.pub")
+
+  tags = merge(local.common_tags, {
+    Name = "${local.name_prefix}terra-key-ec2"
+  })
 }
 
 
