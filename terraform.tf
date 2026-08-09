@@ -7,12 +7,12 @@ terraform {
   }
 
   backend "s3" {
-  bucket         = "priyanshug-bucket"
-  key            = "terraform.tfstate"
-  region         = "ap-south-1"
-  dynamodb_table = "dynamo-pg"
-  encrypt        = true
-}
+    bucket         = "priyanshug-bucket"
+    key            = "terraform.tfstate"
+    region         = "ap-south-1"
+    dynamodb_table = "dynamo-pg"
+    encrypt        = true
+  }
 
 }
 

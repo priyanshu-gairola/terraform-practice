@@ -72,7 +72,7 @@ resource "aws_instance" "my_ec2_instance" {
   # count=2   meta-argument to create multiple instances of same type
 
   for_each = tomap({
-  tws-instance-micro = "t3.micro"
+    tws-instance-micro = "t3.micro"
   })
 
   depends_on = [aws_key_pair.my_key, aws_default_vpc.default, aws_security_group.my_security_group]
@@ -81,12 +81,12 @@ resource "aws_instance" "my_ec2_instance" {
   instance_type   = each.value
   key_name        = aws_key_pair.my_key.key_name
   security_groups = [aws_security_group.my_security_group.name]
-  user_data        = file("install-nginx.sh")
+  user_data       = file("install-nginx.sh")
 
   #storage which we sede at bottom while crrating instance
 
   root_block_device {
-    volume_size = var.env_name == "prod" ? 10 : var.default_block_storage
+    volume_size = local.environment == "prod" ? 10 : var.default_block_storage
     volume_type = "gp3"
   }
 
