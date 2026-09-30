@@ -7,6 +7,8 @@ and **remote state management with Amazon S3 and DynamoDB**.
 The project demonstrates how the same Terraform configuration can be
 used to manage isolated `dev`, `staging`, and `prod` environments.
 
+This repo was solely used for learning purpose and at the same time how configurations are made in real prod environment .
+
 ---
 
 ## Architecture
