@@ -9,6 +9,9 @@ used to manage isolated `dev`, `staging`, and `prod` environments.
 
 This repo was solely used for learning purpose and at the same time how configurations are made in real prod environment .
 
+TWS video was referred while learning the concepts .
+
+
 ---
 
 ## Architecture
